@@ -32,7 +32,14 @@ namespace TestSchool.Api
 
             #region Life Time
             builder.Services.AddScoped<ITeacherCourseRepository, TeacherCourseRepository>();
+            builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            
+            //-------------------------------------------------------------------------------
+
             builder.Services.AddScoped<ITeacherCourseService, TeacherCourseService>();
+            builder.Services.AddScoped<ITeacherService, TeacherService>();
+            builder.Services.AddScoped<ICourseService, CourseSevice>();
             #endregion
 
             #region Mapper
