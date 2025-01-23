@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
+using Domain.DTOs.Portal.Course;
+using Domain.Entities.Security.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Profiles
+namespace Application.Profiles
 {
-    public class TeacherCourseProfile:Profile
+    public class CourseProfile:Profile
     {
-        public TeacherCourseProfile()
+        public CourseProfile()
         {
-            
         }
     }
 }

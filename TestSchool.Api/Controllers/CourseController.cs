@@ -13,5 +13,29 @@ namespace TestSchool.Api.Controllers
             _courseService = courseService;
         }
         #endregion
+
+        #region Get
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                var courses = _courseService.GetAll();
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                List<Exception> errors = new();
+
+                while (ex.InnerException != null)
+                {
+                    errors.Add(ex.InnerException);
+                }
+
+                return BadRequest(errors);
+            }
+        }
+        #endregion
+
     }
 }

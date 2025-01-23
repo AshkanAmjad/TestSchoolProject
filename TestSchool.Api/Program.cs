@@ -1,8 +1,8 @@
 
+using Application.Profiles;
 using Application.Services.Implements;
 using Application.Services.Interfaces;
 using Data.Context;
-using Data.Profiles;
 using Data.Repositories;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
