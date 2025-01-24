@@ -4,13 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TestSchool.Api.Controllers
 {
+    [Route("api/course/")]
     public class CourseController : BaseController
     {
         #region Constructor
         private readonly ICourseService _courseService;
-        public CourseController(ICourseService courseService)
+        private readonly ILogger<CourseController> _logger;
+        public CourseController(ICourseService courseService,
+                                ILogger<CourseController> logger)
         {
             _courseService = courseService;
+            _logger = logger;
         }
         #endregion
 
@@ -21,6 +25,7 @@ namespace TestSchool.Api.Controllers
             try
             {
                 var courses = _courseService.GetAll();
+                _logger.LogInformation("Successfully getting all :)");
                 return Ok(courses);
             }
             catch (Exception ex)
@@ -30,6 +35,7 @@ namespace TestSchool.Api.Controllers
                 while (ex.InnerException != null)
                 {
                     errors.Add(ex.InnerException);
+                    _logger.LogError(ex.InnerException.ToString());
                 }
 
                 return BadRequest(errors);

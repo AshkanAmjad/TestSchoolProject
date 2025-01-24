@@ -1,11 +1,8 @@
 
-using Application.Profiles;
-using Application.Services.Implements;
-using Application.Services.Interfaces;
+using Application.Extensions;
 using Data.Context;
-using Data.Repositories;
-using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using TestSchool.Api.Dependencies;
 
 namespace TestSchool.Api
 {
@@ -17,7 +14,12 @@ namespace TestSchool.Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+            }).AddNewtonsoftJson()
+              .AddXmlDataContractSerializerFormatters();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -30,23 +32,12 @@ namespace TestSchool.Api
             });
             #endregion
 
-            #region Life Time
-            builder.Services.AddScoped<ITeacherCourseRepository, TeacherCourseRepository>();
-            builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
-            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-            
-            //-------------------------------------------------------------------------------
-
-            builder.Services.AddScoped<ITeacherCourseService, TeacherCourseService>();
-            builder.Services.AddScoped<ITeacherService, TeacherService>();
-            builder.Services.AddScoped<ICourseService, CourseSevice>();
+            #region Services
+            LogServiceExtensions.ConfigureLogging(builder.Host);
+            builder.Services.RegisterServices();
+            builder.Services.AddMappingService();
             #endregion
 
-            #region Mapper
-            builder.Services.AddAutoMapper(typeof(TeacherProfile));
-            builder.Services.AddAutoMapper(typeof(TeacherCourseProfile));
-            builder.Services.AddAutoMapper(typeof(CourseProfile));
-            #endregion
 
             var app = builder.Build();
 

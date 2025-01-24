@@ -5,13 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TestSchool.Api.Controllers
 {
+    [Route("api/teacher/")]
     public class TeacherController : BaseController
     {
         #region Constructor
         private readonly ITeacherService _teacherService;
-        public TeacherController(ITeacherService teacherService)
+        private readonly ILogger<TeacherController> _logger;
+        public TeacherController(ITeacherService teacherService,
+                                 ILogger<TeacherController> logger)
         {
             _teacherService = teacherService;
+            _logger = logger;
         }
         #endregion
 
@@ -23,6 +27,7 @@ namespace TestSchool.Api.Controllers
             try
             {
                 var teachers = _teacherService.GetAll();
+                _logger.LogInformation("Successfully getting all :)");
                 return Ok(teachers);
             }
             catch (Exception ex)
@@ -32,6 +37,7 @@ namespace TestSchool.Api.Controllers
                 while (ex.InnerException != null)
                 {
                     errors.Add(ex.InnerException);
+                    _logger.LogError(ex.InnerException.ToString());
                 }
 
                 return BadRequest(errors);

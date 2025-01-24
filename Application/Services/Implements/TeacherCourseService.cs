@@ -1,6 +1,7 @@
 ﻿using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.DTOs.Portal.TeacherCourse;
+using Domain.Entities.Portal.Models;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,18 @@ namespace Application.Services.Implements
         #endregion
         public List<DisplayDTO> GetAll()
            => _teacherCourseRepository.GetAll();
+
+        public TeacherCourse? GetById(int teacherCourseId)
+        {
+
+            var id = Convert.ToInt32(teacherCourseId);
+            return _teacherCourseRepository.GetById(id);
+        }
+
+        public bool IsExistById(int teacherCourseId)
+            => _teacherCourseRepository.IsExistById(teacherCourseId);
+
+        public void SaveChanges()
+            => _teacherCourseRepository.SaveChanges();
     }
 }
