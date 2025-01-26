@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.DTOs.Portal.TeacherCourse
 {
-    public class UpdateDTO
+    public class UpdateTeacherCourseDTO
     {
         public string TeacherId { get; set; }
         public string CourseId { get; set; }
-        public string IsActived { get; set; }
     }
 }

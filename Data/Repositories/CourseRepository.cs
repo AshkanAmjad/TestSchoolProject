@@ -1,5 +1,6 @@
 ﻿using Data.Context;
 using Domain.DTOs.Portal.Course;
+using Domain.Entities.Security.Models;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,10 @@ namespace Data.Repositories
             _context = context;
         }
         #endregion
-        public List<DisplayDTO> GetAll()
+        public List<DisplayCoursesDTO> GetAll()
         {
-            var courses = (from course in _context.Courses 
-                           select new DisplayDTO
+            var courses = (from course in _context.Courses
+                           select new DisplayCoursesDTO
                            {
                                CourseId = course.CourseId.ToString(),
                                Title = course.Title,
@@ -30,6 +31,36 @@ namespace Data.Repositories
                            }).ToList();
 
             return courses;
+        }
+
+        public bool Insert(Course model)
+        {
+            if (model == null) return false;
+
+            _context.Add(model);
+
+            return true;
+        }
+
+        public void SaveChanges()
+            => _context.SaveChanges();
+
+        public bool IsExistById(int courseId)
+           => _context.Courses.Where(c => c.CourseId == courseId)
+                              .Any();
+
+        public Course? GetById(int courseId)
+            => _context.Courses.Find(courseId);
+
+        public bool Disable(int courseId)
+        {
+            var course = _context.Courses.Find(courseId);
+
+            if (course == null)
+                return false;
+
+            course.IsActived = false;
+            return true;
         }
     }
 }

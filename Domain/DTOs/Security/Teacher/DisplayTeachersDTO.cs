@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.DTOs.Security.Teacher
 {
-    public class DisplayDTO
+    public class DisplayTeachersDTO
     {
         public string TeacherId { get; set; }
         public string NationalCode { get; set; }

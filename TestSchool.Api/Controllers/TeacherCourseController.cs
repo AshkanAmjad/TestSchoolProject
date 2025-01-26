@@ -1,5 +1,7 @@
-﻿using Application.Services.Interfaces;
+﻿using Application.Services.Implements;
+using Application.Services.Interfaces;
 using AutoMapper;
+using Domain.DTOs.Portal.Course;
 using Domain.DTOs.Portal.TeacherCourse;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -51,10 +53,54 @@ namespace TestSchool.Api.Controllers
         }
         #endregion
 
+        #region Post
+        [HttpPost]
+        public IActionResult Insert(InsertTeacherCourseDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogInformation("Model is not valid :(");
+                return BadRequest(model);
+            }
+            try
+            {
+                bool result = false;
+
+                result = _teacherCourseService.Insert(model);
+
+                if (result)
+                {
+                    _teacherCourseService.SaveChanges();
+
+                    _logger.LogInformation("Successfully Inserted ;)");
+                    return Ok("Successfully Inserted ;)");
+                }
+                else
+                {
+                    return BadRequest("Unsuccessfully Inserted :(");
+                }
+            }
+            catch (Exception ex)
+            {
+                List<string> errors = new();
+                errors.Add(ex.Message);
+
+                while (ex.InnerException != null)
+                {
+                    errors.Add(ex.InnerException.Message);
+                    ex = ex.InnerException;
+                }
+
+                return BadRequest(errors);
+            }
+        }
+
+        #endregion
+
         #region Patch
         [HttpPatch("{teacherCourseId}")]
         public IActionResult Update(int teacherCourseId,
-                                    JsonPatchDocument<UpdateDTO> model)
+                                    JsonPatchDocument<UpdateTeacherCourseDTO> model)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +114,7 @@ namespace TestSchool.Api.Controllers
 
                         if(item != null)
                         {
-                            var itemToPatch = _mapper.Map<UpdateDTO>(item);
+                            var itemToPatch = _mapper.Map<UpdateTeacherCourseDTO>(item);
 
                             model.ApplyTo(itemToPatch,ModelState);
 
@@ -108,5 +154,52 @@ namespace TestSchool.Api.Controllers
         }
 
         #endregion
-    }
+
+        #region Disable
+        [HttpDelete("{teacherCourseId}")]
+        public IActionResult Delete(int teacherCourseId)
+        {
+            if (teacherCourseId<=0 ||
+                !_teacherCourseService.IsExistById(teacherCourseId))
+            {
+                _logger.LogInformation("Teacher Course ID is not valid :(");
+                return NotFound();
+
+            }
+
+            try
+            {
+                bool result = false;
+                result = _teacherCourseService.Disable(teacherCourseId);
+
+                if (result)
+                {
+                    _teacherCourseService.SaveChanges();
+
+                    _logger.LogInformation("Successfully Disabled ;)");
+                    return Ok("Successfully Disabled ;)");
+                }
+                else
+                {
+                    return BadRequest("Unsuccessfully Disabled :(");
+                }
+            }
+            catch (Exception ex)
+            {
+                List<string> errors = new();
+                errors.Add(ex.Message);
+
+
+                while (ex.InnerException != null)
+                {
+                    errors.Add(ex.InnerException.Message);
+                    ex = ex.InnerException;
+                }
+
+                return BadRequest(errors);
+            }
+        }
+        #endregion
+    } 
+
 }

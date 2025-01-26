@@ -1,5 +1,7 @@
 ﻿using Data.Context;
 using Domain.DTOs.Security.Teacher;
+using Domain.Entities.Portal.Models;
+using Domain.Entities.Security.Models;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories
 {
-    public class TeacherRepository:ITeacherRepository
+    public class TeacherRepository : ITeacherRepository
     {
         #region Constructor
         private readonly TestSchoolContext _context;
@@ -18,10 +20,10 @@ namespace Data.Repositories
             _context = context;
         }
         #endregion
-        public List<DisplayDTO> GetAll()
+        public List<DisplayTeachersDTO> GetAll()
         {
             var courses = (from teacher in _context.Teachers
-                           select new DisplayDTO
+                           select new DisplayTeachersDTO
                            {
                                TeacherId = teacher.TeacherId.ToString(),
                                IsActived = teacher.IsActived.ToString(),
@@ -33,6 +35,36 @@ namespace Data.Repositories
                            }).ToList();
 
             return courses;
+        }
+
+        public bool Insert(Teacher model)
+        {
+            if (model == null) return false;
+
+            _context.Add(model);
+
+            return true;
+        }
+
+        public void SaveChanges()
+            => _context.SaveChanges();
+
+        public bool IsExistById(int teacherId)
+            => _context.Teachers.Where(t => t.TeacherId == teacherId)
+                                .Any();
+
+        public Teacher? GetById(int teacherId)
+            => _context.Teachers.Find(teacherId);
+
+        public bool Disable(int teacherId)
+        {
+            var teacher = _context.Teachers.Find(teacherId);
+
+            if(teacher == null)
+                return false;
+
+            teacher.IsActived = false;
+            return true;
         }
     }
 }

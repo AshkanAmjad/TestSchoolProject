@@ -1,7 +1,10 @@
 ﻿using Application.Services.Interfaces;
 using AutoMapper;
+using Data.Repositories;
+using Domain.DTOs.Portal.Course;
 using Domain.DTOs.Portal.TeacherCourse;
 using Domain.Entities.Portal.Models;
+using Domain.Entities.Security.Models;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,7 +26,7 @@ namespace Application.Services.Implements
             _mapper = mapper;
         }
         #endregion
-        public List<DisplayDTO> GetAll()
+        public List<DisplayTeacherCoursesDTO> GetAll()
            => _teacherCourseRepository.GetAll();
 
         public TeacherCourse? GetById(int teacherCourseId)
@@ -38,5 +41,27 @@ namespace Application.Services.Implements
 
         public void SaveChanges()
             => _teacherCourseRepository.SaveChanges();
+
+        public bool Insert(InsertTeacherCourseDTO model)
+        {
+            bool result = false;
+
+            var course = _mapper.Map<TeacherCourse>(model);
+
+            course.IsActived = true;
+            course.RegisterDate = DateTime.Now;
+
+            result = _teacherCourseRepository.Insert(course);
+
+            if (result)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Disable(int teacherCourseId)
+            => _teacherCourseRepository.Disable(teacherCourseId);
     }
 }

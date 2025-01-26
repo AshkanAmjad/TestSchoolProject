@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.DTOs.Security.Teacher;
+using Domain.Entities.Portal.Models;
 using Domain.Entities.Security.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,10 @@ namespace Data.Profiles
     {
         public TeacherProfile()
         {
+            CreateMap<InsertTeacherDTO, Teacher>();
+            CreateMap<Teacher, UpdateTeacherDTO>();
+            CreateMap<UpdateTeacherDTO, Teacher>();
+
         }
     }
 }

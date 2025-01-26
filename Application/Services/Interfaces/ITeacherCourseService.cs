@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs.Portal.TeacherCourse;
+using Domain.DTOs.Security.Teacher;
 using Domain.Entities.Portal.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,11 @@ namespace Application.Services.Interfaces
 {
     public interface ITeacherCourseService
     {
-        List<DisplayDTO> GetAll();
+        List<DisplayTeacherCoursesDTO> GetAll();
         TeacherCourse? GetById(int teacherCourseId);
         bool IsExistById(int teacherCourseId);
+        bool Insert(InsertTeacherCourseDTO model);
+        bool Disable(int teacherCourseId);
         void SaveChanges();
     }
 }

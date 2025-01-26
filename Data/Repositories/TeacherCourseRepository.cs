@@ -2,6 +2,7 @@
 using Data.Context;
 using Domain.DTOs.Portal.TeacherCourse;
 using Domain.Entities.Portal.Models;
+using Domain.Entities.Security.Models;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ namespace Data.Repositories
             _mapper = mapper;
         }
         #endregion
-        public List<DisplayDTO> GetAll()
+        public List<DisplayTeacherCoursesDTO> GetAll()
         {
             var courses = (from item in _context.TeachersCourse
-                           select new DisplayDTO
+                           select new DisplayTeacherCoursesDTO
                            {
                                CourseId = item.CourseId.ToString(),
                                TeacherCourseId = item.TeacherCourseId.ToString(),
@@ -47,6 +48,24 @@ namespace Data.Repositories
         public void SaveChanges()
             => _context.SaveChanges();
 
+        public bool Insert(TeacherCourse model)
+        {
+            if (model == null) return false;
 
+            _context.Add(model);
+
+            return true;
+        }
+
+        public bool Disable(int teacherCourseId)
+        {
+            var teacherCourse = _context.TeachersCourse.Find(teacherCourseId);
+
+            if (teacherCourse == null)
+                return false;
+
+            teacherCourse.IsActived = false;
+            return true;
+        }
     }
 }

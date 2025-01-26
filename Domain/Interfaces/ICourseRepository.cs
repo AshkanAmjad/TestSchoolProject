@@ -1,14 +1,16 @@
 ﻿using Domain.DTOs.Portal.Course;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entities.Security.Models;
 
 namespace Domain.Interfaces
 {
     public interface ICourseRepository
     {
-        List<DisplayDTO> GetAll();
+        List<DisplayCoursesDTO> GetAll();
+        bool Insert(Course model);
+        void SaveChanges();
+        bool IsExistById(int courseId);
+        bool Disable(int courseId);
+        Course? GetById(int courseId);
+
     }
 }

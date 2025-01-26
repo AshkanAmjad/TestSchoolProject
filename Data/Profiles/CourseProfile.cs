@@ -13,6 +13,9 @@ namespace Data.Profiles
     {
         public CourseProfile()
         {
+            CreateMap<InsertCourseDTO, Course>();
+            CreateMap<Course, UpdateCourseDTO>();
+            CreateMap<UpdateCourseDTO, Course>();
         }
     }
 }

@@ -1,15 +1,16 @@
 ﻿using Domain.DTOs.Security.Teacher;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entities.Portal.Models;
+using Domain.Entities.Security.Models;
 
 namespace Domain.Interfaces
 {
     public interface ITeacherRepository
     {
-        List<DisplayDTO> GetAll();
-
+        List<DisplayTeachersDTO> GetAll();
+        bool Insert(Teacher model);
+        void SaveChanges();
+        bool IsExistById(int teacherId);
+        Teacher? GetById(int teacherId);
+        bool Disable(int teacherId);
     }
 }

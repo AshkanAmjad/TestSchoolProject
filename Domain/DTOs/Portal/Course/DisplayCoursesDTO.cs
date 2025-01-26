@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTOs.Portal.TeacherCourse
+namespace Domain.DTOs.Portal.Course
 {
-    public class DisplayDTO
+    public class DisplayCoursesDTO
     {
-        public string TeacherCourseId { get; set; }
-        public string TeacherId { get; set; }
         public string CourseId { get; set; }
+        public string Title { get; set; }
         public string IsActived { get; set; }
     }
 }
