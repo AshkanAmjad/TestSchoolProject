@@ -61,7 +61,7 @@ namespace Application.Services.Implements
             return false;
         }
 
-        public bool Disable(int teacherCourseId)
-            => _teacherCourseRepository.Disable(teacherCourseId);
+        public bool DisableByTeacherCourseId(int teacherCourseId)
+            => _teacherCourseRepository.DisableByTeacherCourseId(teacherCourseId);
     }
 }

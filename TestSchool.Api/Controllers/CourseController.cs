@@ -124,6 +124,7 @@ namespace TestSchool.Api.Controllers
                             }
 
                             _mapper.Map(itemToPatch, item);
+                            item.RegisterDate = DateTime.Now;
 
                             _courseService.SaveChanges();
 
@@ -155,11 +156,10 @@ namespace TestSchool.Api.Controllers
         public IActionResult Delete(int courseId)
         {
             if (courseId <= 0 ||
-                _courseService.IsExistById(courseId))
+                !_courseService.IsExistById(courseId))
             {
                 _logger.LogInformation("Course ID is not valid :(");
                 return NotFound();
-
             }
 
             try

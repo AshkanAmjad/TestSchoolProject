@@ -15,7 +15,7 @@ namespace Application.Services.Interfaces
         TeacherCourse? GetById(int teacherCourseId);
         bool IsExistById(int teacherCourseId);
         bool Insert(InsertTeacherCourseDTO model);
-        bool Disable(int teacherCourseId);
+        bool DisableByTeacherCourseId(int teacherCourseId);
         void SaveChanges();
     }
 }

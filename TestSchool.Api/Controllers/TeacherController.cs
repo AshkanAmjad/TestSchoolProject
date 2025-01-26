@@ -124,6 +124,7 @@ namespace TestSchool.Api.Controllers
                             }
 
                             _mapper.Map(itemToPatch, item);
+                            item.RegisterDate = DateTime.Now;
 
                             _teacherService.SaveChanges();
 

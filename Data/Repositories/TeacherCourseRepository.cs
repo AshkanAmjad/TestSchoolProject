@@ -57,7 +57,7 @@ namespace Data.Repositories
             return true;
         }
 
-        public bool Disable(int teacherCourseId)
+        public bool DisableByTeacherCourseId(int teacherCourseId)
         {
             var teacherCourse = _context.TeachersCourse.Find(teacherCourseId);
 
@@ -65,7 +65,39 @@ namespace Data.Repositories
                 return false;
 
             teacherCourse.IsActived = false;
+            teacherCourse.RegisterDate = DateTime.Now;
+
             return true;
+        }
+
+        public void DisableByCourseId(int courseId)
+        {
+            var teacherCourse = _context.TeachersCourse.Where(tc => tc.CourseId == courseId)
+                                                       .ToList();
+
+            if (teacherCourse.Count != 0)
+            {
+                foreach (var item in teacherCourse)
+                {
+                    item.IsActived = false;
+                    item.RegisterDate = DateTime.Now;
+                }
+            }
+        }
+
+        public void DisableByTeacherId(int teacherId)
+        {
+            var teacherCourse = _context.TeachersCourse.Where(tc => tc.TeacherId == teacherId)
+                                                       .ToList();
+
+            if (teacherCourse.Count != 0)
+            {
+                foreach (var item in teacherCourse)
+                {
+                    item.IsActived = false;
+                    item.RegisterDate = DateTime.Now;
+                }
+            }
         }
     }
 }

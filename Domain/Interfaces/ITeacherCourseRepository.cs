@@ -15,7 +15,9 @@ namespace Domain.Interfaces
         bool IsExistById(int teacherCourseId);
         TeacherCourse? GetById(int teacherCourseId);
         bool Insert(TeacherCourse model);
-        bool Disable(int teacherCourseId);
+        bool DisableByTeacherCourseId(int teacherCourseId);
+        void DisableByTeacherId(int teacherId);
+        void DisableByCourseId(int courseId);
         void SaveChanges();
     }
 }

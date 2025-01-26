@@ -128,6 +128,7 @@ namespace TestSchool.Api.Controllers
                             }
 
                             _mapper.Map(itemToPatch,item);
+                            item.RegisterDate = DateTime.Now;
 
                             _teacherCourseService.SaveChanges();
 
@@ -170,7 +171,7 @@ namespace TestSchool.Api.Controllers
             try
             {
                 bool result = false;
-                result = _teacherCourseService.Disable(teacherCourseId);
+                result = _teacherCourseService.DisableByTeacherCourseId(teacherCourseId);
 
                 if (result)
                 {

@@ -14,9 +14,12 @@ namespace Data.Repositories
     {
         #region Constructor
         private readonly TestSchoolContext _context;
-        public CourseRepository(TestSchoolContext context)
+        private readonly ITeacherCourseRepository _teachertCourseRepository;
+        public CourseRepository(TestSchoolContext context,
+                                ITeacherCourseRepository teachertCourseRepository)
         {
             _context = context;
+            _teachertCourseRepository = teachertCourseRepository;
         }
         #endregion
         public List<DisplayCoursesDTO> GetAll()
@@ -60,7 +63,12 @@ namespace Data.Repositories
                 return false;
 
             course.IsActived = false;
+            course.RegisterDate = DateTime.Now;
+
+            _teachertCourseRepository.DisableByCourseId(courseId);
+
             return true;
+
         }
     }
 }

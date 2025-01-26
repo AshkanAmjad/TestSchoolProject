@@ -15,9 +15,12 @@ namespace Data.Repositories
     {
         #region Constructor
         private readonly TestSchoolContext _context;
-        public TeacherRepository(TestSchoolContext context)
+        private readonly ITeacherCourseRepository _teacherCourseRepository;
+        public TeacherRepository(TestSchoolContext context,
+                                 ITeacherCourseRepository teacherCourseRepository)
         {
             _context = context;
+            _teacherCourseRepository = teacherCourseRepository;
         }
         #endregion
         public List<DisplayTeachersDTO> GetAll()
@@ -60,10 +63,14 @@ namespace Data.Repositories
         {
             var teacher = _context.Teachers.Find(teacherId);
 
-            if(teacher == null)
+            if (teacher == null)
                 return false;
 
             teacher.IsActived = false;
+            teacher.RegisterDate = DateTime.Now;
+
+            _teacherCourseRepository.DisableByTeacherId(teacherId);
+
             return true;
         }
     }
